@@ -27,9 +27,27 @@ export default StyleSheet.create({
   },
   fullView: {
     width: dimensions.width,
-    height: dimensions.height - 100,
+    height: dimensions.height-83,
   },
-  remoteContainer: {
+chatView:{width:dimensions.width,
+  position:'absolute', bottom:0,height:300,overflow:'scroll'}
+  ,videview:{
+    width:dimensions.width,
+    height: dimensions.height-200
+  },
+chatInput:{
+  marginHorizontal:10,
+  borderRadius:25,
+
+
+},
+inputtext:{borderRadius:25, borderTopLeftRadius:25,borderTopRightRadius:25,width:dimensions.width-50}
+
+,halfView:{
+  width:dimensions.width,
+  height: dimensions.height-400
+}
+  ,remoteContainer: {
     width: '100%',
     height: 150,
     position: 'absolute',
