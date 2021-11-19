@@ -27,7 +27,7 @@ export default StyleSheet.create({
   },
   fullView: {
     width: dimensions.width,
-    height: dimensions.height-26,
+    height: dimensions.height-83,
   },
 chatView:{width:dimensions.width,
   position:'absolute', bottom:0,height:300,overflow:'scroll'}

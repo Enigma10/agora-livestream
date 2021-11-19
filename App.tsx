@@ -26,7 +26,7 @@ import styles from './components/Style';
  * @property token Token for the channel;
  * @property channelName Channel Name for the current session
  */
-const token = '006ddf855c87b174eb3ad9895dde7da3c2aIADp7kdkQyxXGOyw3RUoc8BEgWErRWvuMqOjiHNWs6Pq5AZa8+gAAAAAEAAxeNCcdDWWYQEAAQB0NZZh';
+const token = '006ddf855c87b174eb3ad9895dde7da3c2aIABff2dxPk5L58c6IDLJENAXM1zMioP/WK/IlIFk+EaqYQZa8+gAAAAAEAAxeNCcqAeYYQEAAQCnB5hh';
 const appId = 'ddf855c87b174eb3ad9895dde7da3c2a';
 const channelName = 'testing';
 
