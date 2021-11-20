@@ -20,13 +20,14 @@ import RtcEngine, {
 
 import requestCameraAndAudioPermission from './components/Permission';
 import styles from './components/Style';
+import ShowCatalog from './components/ShowCatalog';
 
 /**
  * @property appId Agora App ID
  * @property token Token for the channel;
  * @property channelName Channel Name for the current session
  */
-const token = '006ddf855c87b174eb3ad9895dde7da3c2aIABff2dxPk5L58c6IDLJENAXM1zMioP/WK/IlIFk+EaqYQZa8+gAAAAAEAAxeNCcqAeYYQEAAQCnB5hh';
+const token = '006ddf855c87b174eb3ad9895dde7da3c2aIADKTqZicuGfvMSQOEt4pVumrmbnx3kYjys33nL5ajyYhQZa8+gAAAAAEABw2xAIdV6ZYQEAAQB0Xplh';
 const appId = 'ddf855c87b174eb3ad9895dde7da3c2a';
 const channelName = 'testing';
 
@@ -262,8 +263,10 @@ if(value.length!=0){
 
   _renderVideos = () => {
     const {joinSucceed } = this.state;
+    const {navigation}= this.props;
     return joinSucceed ? (
       <View style={styles.fullView}>
+         
         <View style={styles.videview}>
         {this.state.isHost ? (
           <RtcLocalView.SurfaceView
@@ -277,6 +280,7 @@ if(value.length!=0){
 
         </View>
         {this._renderlivechats()}
+       <ShowCatalog navigation={navigation}/>
       </View>
     ) : null;
   };
