@@ -43,10 +43,8 @@ const ShowCatalog = ({navigation}) => {
                 }}
             >
                 <View style={styles.modalContent}>
-                    <Button 
-                        title="Close Modal"
-                        onPress={()=>setModal1(false)}
-                    />
+                 
+                    <IconButton size={30} color={'blue'} icon="close-circle-outline" onPress={()=>setModal1(false)}/>
                     {/* form 1 */}
                     {
                         showForm1 === 1 &&
@@ -56,9 +54,14 @@ const ShowCatalog = ({navigation}) => {
                                     // @ts-ignore
                                     source={require("./assets/images/cart.png")}
                                 />
-                            </View>
-                                <Text style={{fontSize: 20, marginTop: 20}}>DIY yellow toy truck</Text>
-                                <Text style={{fontSize: 20, fontWeight: 'bold',marginTop: 15}}>Rs. 399</Text>
+                            </View><View>
+                            <View style={{flexDirection:'row',marginBottom:15,}}><Text style={styles.productHeading}>Product Name:</Text>
+                                <Text style={{fontSize: 20,}}>DIY yellow toy truck</Text></View>
+                            <Text style={styles.productHeading}>Discription</Text>
+                            <Text style={{marginLeft:10,fontSize:16}}>
+                            Django is a Python-based free and open-source web framework that follows the model–template–views architectural pattern. It is maintained by the Django Software Foundation, an independent organization established in the US as a 501 non-profit.
+                            </Text>
+                                <Text style={{marginLeft:10,fontSize: 20, fontWeight: 'bold',marginTop: 15}}>Rs. 399</Text></View>
                             <View style={styles.
 // @ts-ignore
                             form1TextContainer}>

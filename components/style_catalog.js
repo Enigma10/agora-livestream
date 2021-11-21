@@ -26,23 +26,28 @@ export default StyleSheet.create({
         height: '100%'
 
     },
-    modal: {
+productHeading:{fontWeight:'700',marginRight:20,marginLeft:10,fontSize:20}
+    ,modal: {
         marginTop: '50%',
         height: '50%',
         backgroundColor: 'green'
     },
     form1ImageContainer: {
         alignItems: 'center',
-        borderWidth: 1,
-        borderBottomColor: 'black',
-        borderTopColor: 'black',
-        margin: 10
+        
     },
     InputFieldForm2: {
         marginHorizontal: 20,
-        borderWidth: 1,
-        borderColor: 'black',
         height: 40,
-        marginTop: 6
+        marginTop: 6,
+        backgroundColor: 'white',
+        borderRadius: 50,
+        borderTopRightRadius:50,
+        borderTopLeftRadius:50,
+        marginBottom: 10,
+        paddingHorizontal: 8,
+        paddingVertical: 6,
+
+
     }
 });

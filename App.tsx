@@ -27,9 +27,9 @@ import ShowCatalog from './components/ShowCatalog';
  * @property token Token for the channel;
  * @property channelName Channel Name for the current session
  */
-const token = '006ddf855c87b174eb3ad9895dde7da3c2aIADKTqZicuGfvMSQOEt4pVumrmbnx3kYjys33nL5ajyYhQZa8+gAAAAAEABw2xAIdV6ZYQEAAQB0Xplh';
-const appId = 'ddf855c87b174eb3ad9895dde7da3c2a';
-const channelName = 'testing';
+const token = '006645930a984ae45c5831d9ecc05e5e675IADtnso6Dsd7PoKDAVdJouojXvyBBQY6qQsP30W4266L86zTKhAAAAAAEACOCs8Z14GaYQEAAQDWgZph/+VrRYCs5hc54jSt3rYQULF1Gaez01PpiH5WV9mAZa8+gAAAAAEACOCs8ZOTSaYQEAAQA5NJph';
+const appId = '645930a984ae45c5831d9ecc05e5e675';
+const channelName = 'tst2';
 
 /**
  * @property isHost Boolean value to select between broadcaster and audience
@@ -54,68 +54,64 @@ export default class App extends Component<null, State> {
   constructor(props) {
     super(props);
     this.state = {
-      isHost: true,
+      isHost: false,
       joinSucceed: false,
       peerIds: [],
       txtmsg:'',
       isbuttonShow:true
       //@messages - intital list of initial messages prototype that shows in chat section
       ,messages:[{
-        _id:21
+        _id:1
         ,text:"hello",
         user:{_id:2,name:'abhishekY Adav'},
         createdAt:new Date()
         
       },
-      {_id:22,
+      {_id:2,
         text:"hello",
         user:{_id:1,name:'abhishekY Adav'},
         createdAt:new Date()
       },
-      {_id:244,
+      {_id:4,
         text:"hello",
         user:{_id:2,name:'abhishekY Adav'},
         createdAt:new Date()
         
       },
-      {_id:54,
+      {_id:5,
         text:"hello",
         user:{_id:1,name:'abhishekY Adav'},
         createdAt:new Date()
       },
-      {_id:57,
+      {_id:7,
         text:"hello",
         user:{_id:2,name:'abhishekY Adav'},
         createdAt:new Date()
         
       },
-      {_id:4334,
+      {_id:0,
         text:"hello",
         user:{_id:1,name:'abhishekY Adav'},
         createdAt:new Date()
       },
-      {_id:4443,
+      {_id:8,
         text:"hello",
         user:{_id:2,name:'abhishekY Adav'},
         createdAt:new Date()
         
       },
-      {_id:3234,
+      {_id:9,
         text:"hello",
         user:{_id:1,name:'abhishekY Adav'},
         createdAt:new Date()
       },
-      {_id:2223,
+      {_id:3,
         text:"hello",
         user:{_id:2,name:'abhishekY Adav'},
         createdAt:new Date()
         
       },
-      {_id:878,
-        text:"hello",
-        user:{_id:1,name:'abhishekY Adav'},
-        createdAt:new Date()
-      },]
+      ]
     };
     if (Platform.OS === 'android') {
       // Request required permissions from Android
@@ -250,7 +246,7 @@ export default class App extends Component<null, State> {
  onsend = async(value:string)=>{
 if(value.length!=0){
   //create a message dict.
-  const msg = {_id:432,
+  const msg = {_id:11,
     text:value,
   user:{_id:2,name:"Abhi Ydv"},
   createdAt:new Date()};
@@ -272,7 +268,7 @@ if(value.length!=0){
           <RtcLocalView.SurfaceView
             style={styles.max}
             channelId={channelName}
-            renderMode={VideoRenderMode.Hidden}
+            renderMode={VideoRenderMode.Fit}
           />
         ) : (
           <></>
@@ -286,6 +282,8 @@ if(value.length!=0){
   };
   _renderlivechats=()=>{
 const {messages,txtmsg}=this.state;
+const clrs =['#4e8ef5','#9d1ed4','#d41eb8','#e82063','#a1bd15','#9d1ed4','#a1bd15','#9d1ed4','#d41eb8','#e82063','#a1bd15'];
+console.log(clrs[2]);
 return(
   
   <View style={styles.chatView}>
@@ -293,14 +291,14 @@ return(
   colors={['transparent' ,'black']} 
   style={{flex:1}}>
     <View style={{flex:1}}>
-    <ScrollView scrollEnabled contentContainerStyle={{ flexGrow: 1 }}>
+    <ScrollView scrollEnabled  contentContainerStyle={{ flexGrow: 1 }}>
    
     <View style={{flex:1}}>
       {messages.map((message)=>{
       return(
-        <View key={message._id} style={{flex:1,paddingHorizontal:5,}}>
-        <Text style={{fontSize:18,color:'white',fontWeight:'600'}}>{message.user.name}</Text>
-        <Text style={{fontSize:16, fontWeight:'500' ,color:'white'}}>{message.text}</Text>      
+        <View key={message._id} style={{flex:1,justifyContent:'flex-start',paddingHorizontal:8,}}>
+       <View style={{flex:1,flexDirection:'row',height:20}}><View style={{width:35,height:35,backgroundColor:clrs[message._id],borderRadius:50,marginRight:5,justifyContent:'center'} } ><Text style={{color:'white', fontSize:18,fontWeight:'700',textAlign:'center'}}>A</Text></View><Text style={{fontSize:18,color:'white',fontWeight:'600'}}>{message.user.name}</Text></View>
+        <Text style={{fontSize:16,marginLeft:40 ,fontWeight:'500' ,color:'white'}}>{message.text}</Text>      
             </View>
       );
     })}

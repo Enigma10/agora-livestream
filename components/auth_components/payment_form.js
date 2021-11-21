@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import {  Text, TouchableOpacity, View } from 'react-native'
 import { TextInput } from 'react-native-paper';
 import styles from '../style_catalog';
 
 export default class PaymentForm extends Component {
 
     render() {
+        const {navigation}=this.props;
         return (
             <View>
             <Text style={{fontSize: 20, marginLeft: 15}}>Pay Using</Text>
@@ -18,6 +19,9 @@ export default class PaymentForm extends Component {
                 </View>
                 <TouchableOpacity 
                     onPress={()=>{
+                        alert("Your order hs been completed")
+                       navigation.goBack();
+                       navigation.goBack();
                        
                     }}
                     style={{

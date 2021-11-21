@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { TextInput } from 'react-native-paper'
 import styles from './style_catalog';
 export default class AddressForm extends Component {
     render() {
         const {navigation}= this.props;
         return (
-            <View>
+            <View style={{flex:1}}>
            
             {
-              
+              <ScrollView>
                 <View>
-                    <Text style={{fontSize: 20, marginLeft: 15}}>Shipping Address</Text>
+                    <Text style={{marginVertical:10,fontSize: 20, marginLeft: 15,textAlign:'center'}}> Pleases fill all details</Text>
                     <TextInput
                     
                         placeholder='Flat/House Number'
@@ -54,6 +54,7 @@ export default class AddressForm extends Component {
                         <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>Confirm</Text>
                     </TouchableOpacity>
                 </View>
+                </ScrollView>
             }
             {/* form21 inside form2 ends here */}
             {/* form 22 starts here */}
