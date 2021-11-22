@@ -7,7 +7,6 @@ import CheckUser from './auth_components/checkUser';
 import Login from './auth_components/login';
 import Signup from './auth_components/signup';
 import App from '../App';
-import ShowCatalog from './ShowCatalog';
 import AddressForm from './addresss_form';
 import PaymentForm from './auth_components/payment_form';
 const Home = App;
@@ -37,11 +36,7 @@ name="Home"
 component={App}
 
 />
-<Stk.Screen
-name="Catalog"
-component={ShowCatalog}
 
-/>
 <Stk.Screen
 name="Address"
 component={AddressForm}

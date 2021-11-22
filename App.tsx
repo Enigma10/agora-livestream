@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
-import LinearGradient from 'react-native-linear-gradient'
-import {Button, Colors, IconButton, TextInput} from 'react-native-paper';
 import {
   Platform,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
-  
- 
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import RtcEngine, {
   RtcLocalView,
   RtcRemoteView,
@@ -17,17 +14,17 @@ import RtcEngine, {
   ClientRole,
   ChannelProfile,
 } from 'react-native-agora';
-
+import {IconButton, TextInput} from 'react-native-paper'
 import requestCameraAndAudioPermission from './components/Permission';
 import styles from './components/Style';
-import ShowCatalog from './components/ShowCatalog';
+import ShowCatalog from './components/ShowCatalog ';
 
 /**
  * @property appId Agora App ID
  * @property token Token for the channel;
  * @property channelName Channel Name for the current session
  */
-const token = '006645930a984ae45c5831d9ecc05e5e675IADtnso6Dsd7PoKDAVdJouojXvyBBQY6qQsP30W4266L86zTKhAAAAAAEACOCs8Z14GaYQEAAQDWgZph/+VrRYCs5hc54jSt3rYQULF1Gaez01PpiH5WV9mAZa8+gAAAAAEACOCs8ZOTSaYQEAAQA5NJph';
+const token = '006645930a984ae45c5831d9ecc05e5e675IABtOSW54RHz/cG0T7T//k0aAIWsuCxPsqF6iJcAvtsNEazTKhAAAAAAEAAtPj4LMdWbYQEAAQAx1Zth';
 const appId = '645930a984ae45c5831d9ecc05e5e675';
 const channelName = 'tst2';
 
@@ -35,17 +32,14 @@ const channelName = 'tst2';
  * @property isHost Boolean value to select between broadcaster and audience
  * @property joinSucceed State variable for storing success
  * @property peerIds Array for storing connected peers
- * @property txtmsg-> to store inputText value of chat section
- * @property isbuttonShow - to handel buttons view in different states
- * 
  */
 interface State {
   isHost: boolean;
   joinSucceed: boolean;
   peerIds: number[];
+  messages:any[];
   txtmsg:string;
-  messages: any[];
-  isbuttonShow:boolean;
+  isbuttonshow:boolean;
 }
 
 export default class App extends Component<null, State> {
@@ -54,12 +48,10 @@ export default class App extends Component<null, State> {
   constructor(props) {
     super(props);
     this.state = {
-      isHost: false,
+      isHost: true,
       joinSucceed: false,
       peerIds: [],
-      txtmsg:'',
-      isbuttonShow:true
-      //@messages - intital list of initial messages prototype that shows in chat section
+      isbuttonshow:false
       ,messages:[{
         _id:1
         ,text:"hello",
@@ -111,7 +103,9 @@ export default class App extends Component<null, State> {
         createdAt:new Date()
         
       },
-      ]
+      ],
+      txtmsg:'',
+      
     };
     if (Platform.OS === 'android') {
       // Request required permissions from Android
@@ -195,6 +189,8 @@ export default class App extends Component<null, State> {
     );
   };
 
+
+
   /**
    * @name startCall
    * @description Function to start the call
@@ -202,8 +198,7 @@ export default class App extends Component<null, State> {
   startCall = async () => {
     // Join Channel using null token and channel name
     await this._engine?.joinChannel(token, channelName, null, 0);
-    this.setState({isbuttonShow:false});
-  
+    this.setState({isbuttonshow:true})
   };
 
   /**
@@ -212,113 +207,110 @@ export default class App extends Component<null, State> {
    */
   endCall = async () => {
     await this._engine?.leaveChannel();
-    this.setState({ peerIds: [], joinSucceed: false });
+    this.setState({ peerIds: [], joinSucceed: false,isbuttonshow:false });
   };
 
-
   render() {
+
     return (
       <View style={styles.max}>
-        <ScrollView contentContainerStyle={{flexGrow:1}}>
+      
         <View style={styles.max}>
           <Text style={styles.roleText}>
             You're {this.state.isHost ? 'a broadcaster' : 'the audience'}
           </Text>
-          {this.state.isbuttonShow?<View style={styles.buttonHolder}>
-            <TouchableOpacity onPress={this.toggleRoll} style={styles.button}>
-              <Text style={styles.buttonText}> Toggle Role </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.startCall} style={styles.button}>
-              <Text style={styles.buttonText}> Start Call </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.endCall} style={styles.button}>
-              <Text style={styles.buttonText}> End Call </Text>
-            </TouchableOpacity>
-          </View>:<></>}
+          {this.state.isbuttonshow?<></>:<View style={this.state.isbuttonshow?[styles.buttonHolder,{justifyContent:'flex-start',alignItems:'flex-start'}]:styles.buttonHolder}>
+                     {this.state.isbuttonshow? <IconButton icon="close" onPress={()=>{this.endCall()}} size={20} color="blue"/>
+            :<><TouchableOpacity onPress={this.toggleRoll} style={styles.button}>
+                <Text style={styles.buttonText}> Toggle Role </Text>
+              </TouchableOpacity><TouchableOpacity onPress={this.startCall} style={styles.button}>
+                  <Text style={styles.buttonText}> Start Call </Text>
+                </TouchableOpacity><TouchableOpacity onPress={this.endCall} style={styles.button}>
+                  <Text style={styles.buttonText}> End Call </Text>
+                </TouchableOpacity></>}
+          </View>}
           {this._renderVideos()}
         </View>
-        </ScrollView>
       </View>
     );
   }
 
-  //handel send event on chat section
- onsend = async(value:string)=>{
-if(value.length!=0){
-  //create a message dict.
-  const msg = {_id:11,
-    text:value,
-  user:{_id:2,name:"Abhi Ydv"},
-  createdAt:new Date()};
-  //push message in list of messages <-->note- i use  "async await" because it was not working properly before <-->
- await this.setState({messages:[...this.state.messages,msg],txtmsg:''});
-
-}
-}
-
-
   _renderVideos = () => {
-    const {joinSucceed } = this.state;
-    const {navigation}= this.props;
+    const {navigation} =this.props;
+    const { joinSucceed } = this.state;
     return joinSucceed ? (
+      <ScrollView contentContainerStyle={{flexGrow:1}} style={{flex:1}}>
       <View style={styles.fullView}>
-         
-        <View style={styles.videview}>
         {this.state.isHost ? (
           <RtcLocalView.SurfaceView
             style={styles.max}
             channelId={channelName}
-            renderMode={VideoRenderMode.Fit}
+            renderMode={VideoRenderMode.Hidden}
           />
         ) : (
           <></>
         )}
-
-        </View>
+        {this._renderRemoteVideos()}
+       
         {this._renderlivechats()}
-       <ShowCatalog navigation={navigation}/>
-      </View>
+        <ShowCatalog navigation={navigation}/>
+      </View></ScrollView>
     ) : null;
   };
-  _renderlivechats=()=>{
-const {messages,txtmsg}=this.state;
-const clrs =['#4e8ef5','#9d1ed4','#d41eb8','#e82063','#a1bd15','#9d1ed4','#a1bd15','#9d1ed4','#d41eb8','#e82063','#a1bd15'];
-console.log(clrs[2]);
-return(
-  
-  <View style={styles.chatView}>
-    <LinearGradient 
-  colors={['transparent' ,'black']} 
-  style={{flex:1}}>
-    <View style={{flex:1}}>
-    <ScrollView scrollEnabled  contentContainerStyle={{ flexGrow: 1 }}>
-   
-    <View style={{flex:1}}>
-      {messages.map((message)=>{
-      return(
-        <View key={message._id} style={{flex:1,justifyContent:'flex-start',paddingHorizontal:8,}}>
-       <View style={{flex:1,flexDirection:'row',height:20}}><View style={{width:35,height:35,backgroundColor:clrs[message._id],borderRadius:50,marginRight:5,justifyContent:'center'} } ><Text style={{color:'white', fontSize:18,fontWeight:'700',textAlign:'center'}}>A</Text></View><Text style={{fontSize:18,color:'white',fontWeight:'600'}}>{message.user.name}</Text></View>
-        <Text style={{fontSize:16,marginLeft:40 ,fontWeight:'500' ,color:'white'}}>{message.text}</Text>      
-            </View>
-      );
-    })}
-    
-    </View>
 
-    </ScrollView>{// <-->Note - if Icons is not working try  react native link and rebuild app <-->
+  //handel send event on chat section
+  onsend = async(value:string)=>{
+    if(value.length!=0){
+      //create a message dict.
+      const msg = {_id:11,
+        text:value,
+      user:{_id:2,name:"Abhi Ydv"},
+      createdAt:new Date()};
+      //push message in list of messages <-->note- i use  "async await" because it was not working properly before <-->
+     await this.setState({messages:[...this.state.messages,msg],txtmsg:''});
+    
     }
-    <View style={{flexDirection:'row'}}><TextInput placeholder="Enter your message" style={styles.inputtext}  value={txtmsg} onChangeText={(val)=>{this.setState({txtmsg:val})}}/><IconButton onPress={()=>{this.onsend(txtmsg)}} size={30} icon="send" color="white"/></View>
-    </View>
-    </LinearGradient>
+    }
+
+  _renderlivechats=()=>{
+    const {messages,txtmsg}=this.state;
+    const clrs =['#4e8ef5','#9d1ed4','#d41eb8','#e82063','#a1bd15','#9d1ed4','#a1bd15','#9d1ed4','#d41eb8','#e82063','#a1bd15'];
+    console.log(clrs[2]);
+    return(
+      
+      <View style={styles.chatView}>
+        <LinearGradient 
+      colors={['transparent' ,'black']} 
+      style={{flex:1}}>
+        <View style={{flex:1}}>
+        <ScrollView scrollEnabled contentContainerStyle={{ flexGrow: 1 }}>
+       
+        <View style={{flex:1}}>
+          {messages.map((message)=>{
+          return(
+            <View key={message._id} style={{flex:1,justifyContent:'flex-start',paddingHorizontal:8,}}>
+           <View style={{flex:1,flexDirection:'row',height:20}}><View style={{width:35,height:35,backgroundColor:clrs[message._id],borderRadius:50,marginRight:5,justifyContent:'center'} } ><Text style={{color:'white', fontSize:18,fontWeight:'700',textAlign:'center'}}>A</Text></View><Text style={{fontSize:18,color:'white',fontWeight:'600'}}>{message.user.name}</Text></View>
+            <Text style={{fontSize:16,marginLeft:40 ,fontWeight:'500' ,color:'white'}}>{message.text}</Text>      
+                </View>
+          );
+        })}
+        
+        </View>
     
+        </ScrollView>{// <-->Note - if Icons is not working try  react native link and rebuild app <-->
+        }
+        <View style={{flexDirection:'row'}}><TextInput placeholder="Enter your message" style={styles.inputtext}  value={txtmsg} onChangeText={(val)=>{this.setState({txtmsg:val})}}/><IconButton onPress={()=>{this.onsend(txtmsg)}} size={30} icon="send" color="white"/></View>
+        </View>
+        </LinearGradient>
+        
+        
+       
     
-   
-
-  </View>
-)
-
-  }
-
+      </View>
+    )
+    
+      }
+    
 
   _renderRemoteVideos = () => {
     const { peerIds } = this.state;

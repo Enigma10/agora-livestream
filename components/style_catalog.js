@@ -47,7 +47,20 @@ productHeading:{fontWeight:'700',marginRight:20,marginLeft:10,fontSize:20}
         marginBottom: 10,
         paddingHorizontal: 8,
         paddingVertical: 6,
-
-
+    },
+    imageofSeeAll: {
+        width: 120,
+        height: 120,
+        marginHorizontal: 25,
+        marginTop: 25,
+        borderWidth: 2,
+        borderColor: 'black',
+        borderRadius: 30,
+    },
+    imageContainerSeeAll: {
+        flex: 1,
+        margin: 20,
+        flexDirection: 'row',
+        flexWrap: 'wrap'
     }
 });

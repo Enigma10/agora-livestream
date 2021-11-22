@@ -49,7 +49,7 @@ inputtext:{borderRadius:25, borderTopLeftRadius:25,borderTopRightRadius:25,width
 }
   ,remoteContainer: {
     width: '100%',
-    height: 150,
+    height: 800,
     position: 'absolute',
     top: 5,
   },
@@ -57,8 +57,8 @@ inputtext:{borderRadius:25, borderTopLeftRadius:25,borderTopRightRadius:25,width
     paddingHorizontal: 2.5,
   },
   remote: {
-    width: 150,
-    height: 150,
+    width: 400,
+    height: 600,
     marginHorizontal: 2.5,
   },
   noUserText: {

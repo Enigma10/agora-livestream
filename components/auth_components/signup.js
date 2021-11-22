@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity } from "react-nativ
 
 const SignUp = ({navigation}) => {
     const [name, setName] = useState('');
-    const [sessionData, setSetSessionData] = useState('');
+    const [sessionData, setSessionData] = useState('');
     const [countryCode, setCountryCode] = useState('+91');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
@@ -12,7 +12,7 @@ const SignUp = ({navigation}) => {
     const [getOtpError, setgetOtpError] = useState('');
     const [verifyOtpError, setVerifyOtpError] = useState('');
 
-    const URL = '#################################';
+    const URL = 'http://ec2-15-206-204-21.ap-south-1.compute.amazonaws.com:8000/user';
 
     const handleGetOtp = async () => {
         console.log("get otp");
@@ -22,21 +22,19 @@ const SignUp = ({navigation}) => {
         }
 
         try {
-            let phoneData=countryCode+phone;
-            console.log("made request");
             const sdata = await axios.post(`${URL}/send_otp`,{
-                    "phone": phoneData
+                    "phone": countryCode+phone
                 }
             );
             console.log(sdata.data);
             if( sdata.data.Status === "Success" ) {
-                setSetSessionData(sdata.data.Details);
+                setSessionData(sdata.data.Details);
             } else {
-                setgetOtpError("Invallid phone Number"); //set up error message
+                setgetOtpError("Invalid phone Number"); //set up error message
             }
         } catch (err) {
             console.log(err);
-            setgetOtpError('Something went wrong');
+            setgetOtpError('Something went wrong, check your network');
         }
     }
 
@@ -51,26 +49,27 @@ const SignUp = ({navigation}) => {
             if( otpStatus.data.Status === "Success" ) {
                 try {
                     const createUser = await axios.post(`${URL}/signup`, {
-                        "phone": countryCode+phone,
+                        "phone": `${countryCode}+${phone}`,
                         "name": name,
                         "role": "B",
                         "email": email
                     });
-                    console.log("User Created, Navigate to Home page");
                     if(createUser!=null){
                         navigation.navigate('Home')
                     }
-                    // navigate to login page
+                    else {
+                        setVerifyOtpError("Could not create user, Invalid information");
+                    }
                 } catch(err) {
+                    console.log(err['message']);
                     console.log("Something went wrong");
                 }
-                
             } else {
                 setVerifyOtpError('Invalid OTP');
             }
         } catch(err){
-            console.log(err);
-            setVerifyOtpError('Something went wrong');
+            console.log(err['message']);
+            setVerifyOtpError('Something went wrong, check your network');
         }
     }
 
@@ -82,7 +81,10 @@ const SignUp = ({navigation}) => {
                 <TextInput
                     style={styles.inputField}
                     placeholder='Enter Name...'
-                    onChangeText={(txt)=>setName(txt)}
+                    onChangeText={(txt)=>{
+                        setName(txt),
+                        setgetOtpError('')
+                    }}
                 />
 
                 <View style={styles.phoneContainer}>
@@ -90,20 +92,26 @@ const SignUp = ({navigation}) => {
                         keyboardType='numeric'
                         style={styles.countryCode}
                         placeholder='+91'
-                        onChangeText={(txt)=>setCountryCode(txt)}
+                        value={countryCode}
                     />
                     <TextInput
                         keyboardType='numeric'
                         style={styles.phoneField}
                         placeholder='Enter Phone...'
-                        onChangeText={(txt)=>setPhone(txt)}
+                        onChangeText={(txt)=>{
+                            setPhone(txt),
+                            setgetOtpError('')
+                        }}
                     />
                 </View>
 
                 <TextInput
                     style={styles.inputField}
                     placeholder='Enter Email...'
-                    onChangeText={(txt)=>setEmail(txt)}
+                    onChangeText={(txt)=>{
+                        setEmail(txt),
+                        setgetOtpError('')
+                    }}
                 />
 
                 <Text style={styles.wrongInformation}>{getOtpError}</Text>
@@ -119,7 +127,10 @@ const SignUp = ({navigation}) => {
                 <TextInput
                     style={styles.inputField}
                     placeholder='Enter OTP...'
-                    onChangeText={(txt)=>setOtp(txt)}
+                    onChangeText={(txt)=>{
+                        setOtp(txt),
+                        setVerifyOtpError('')
+                    }}
                 />
 
                 <TouchableOpacity 
