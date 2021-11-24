@@ -1,5 +1,6 @@
 // @ts-nocheck
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Image, Modal, Button, TextInput, ScrollView } from "react-native";
 import { IconButton } from "react-native-paper";
 import styles from './style_catalog';
@@ -10,6 +11,24 @@ const ShowCatalog = ({navigation}) => {
     const [showForm1,setShowForm1] = useState(0);
     const [showForm2,setShowForm2] = useState(0);
     const [img,setImg]=useState((require("./assets/images/login.jpg")));
+    const [productName,setProductName]=useState("name");
+    const [productPrice,setProductPrice]=useState("1000");
+    const [productId ,setProductId] = useState("0");
+    const [productDescription,setProductDescription]=useState("kasdgfj");
+    const [productsToDisplay,setProductsToDisplay]=useState([]);
+
+    const URL=`http://ec2-15-206-204-21.ap-south-1.compute.amazonaws.com:8000/catalog`;
+
+    const fetchData = () => {
+        axios.get(`${URL}/shows/3`)
+        .then((response)=>{
+            console.log(response.data[0]);
+            setProductsToDisplay(response.data);
+        })
+        .catch((err)=>{
+            console.alert("Something went wrong, try again later");
+        })
+    }
 
     return (
         <View style={styles.mainContainer}>
@@ -26,6 +45,7 @@ const ShowCatalog = ({navigation}) => {
                     >
                         <IconButton icon="shopping" size={38} onPress={()=>{setModal1(true),
                         setShowForm1(0),
+                        fetchData(),
                         setShowForm2(1)}} 
                             color="white"
                         />
@@ -57,18 +77,23 @@ const ShowCatalog = ({navigation}) => {
                                 />
                             </View><View>
                             <View style={{flexDirection:'row',marginBottom:15,}}><Text style={styles.productHeading}>Product Name:</Text>
-                                <Text style={{fontSize: 20,}}>DIY yellow toy truck</Text></View>
+                                <Text style={{fontSize: 20,}}>{productName}</Text></View>
                             <Text style={styles.productHeading}>Discription</Text>
-                            <Text style={{marginLeft:10,fontSize:16}}>
-                            Django is a Python-based free and open-source web framework that follows the model–template–views architectural pattern. It is maintained by the Django Software Foundation, an independent organization established in the US as a 501 non-profit.
-                            </Text>
-                                <Text style={{marginLeft:10,fontSize: 20, fontWeight: 'bold',marginTop: 15}}>Rs. 399</Text></View>
+                            <Text style={{marginLeft:10,fontSize:16}}>{productDescription}</Text>
+                                <Text style={{marginLeft:10,fontSize: 20, fontWeight: 'bold',marginTop: 15}}>Rs. {productPrice}</Text></View>
                             <View style={styles.
 // @ts-ignore
                             form1TextContainer}>
                                 <TouchableOpacity 
                                     onPress={()=>{
-                                       navigation.navigate("Address");
+                                       navigation.navigate("Address",{
+                                           'productInfo': {
+                                               id:productId,
+                                               productName: productName,
+                                               productPrice: productPrice,
+                                               productDescription: productDescription
+                                           }
+                                       });
                                     }}
                                     style={{
                                         backgroundColor: 'black',
@@ -93,98 +118,31 @@ const ShowCatalog = ({navigation}) => {
                             <Text style={[styles.productHeading,{alignSelf: 'center', borderBottomWidth: 4, borderBottomColor: 'black'}]}> All Products </Text>
                             <ScrollView>
                                 <View style={styles.imageContainerSeeAll}>
-                                  <View><TouchableOpacity onPress={()=>{setModal1(true),
-                            setShowForm1(1),setShowForm2(0),setImg(require("./assets/images/product1.jpg"))}}>
-                                        <Image
-                                            style={styles.imageofSeeAll}
-                                            // @ts-ignore
-                                            source={require("./assets/images/product1.jpg")}
-                                        /></TouchableOpacity>
-                                        <Text style={{alignSelf: 'center', fontWeight: 'bold', fontSize: 17}}>Rs 399</Text> 
-                                    </View>
-                                    <View><TouchableOpacity onPress={()=>{setModal1(true),
-                            setShowForm1(1),setShowForm2(0),setImg(require("./assets/images/product1.jpg"))}}>
-                                        <Image
-                                            style={styles.imageofSeeAll}
-                                            // @ts-ignore
-                                            source={require("./assets/images/product2.jpg")}
-                                        /></TouchableOpacity>
-                                        <Text style={{alignSelf: 'center', fontWeight: 'bold', fontSize: 17}}>Rs 6899</Text> 
-                                    </View>
-                                    <View><TouchableOpacity onPress={()=>{setModal1(true),
-                            setShowForm1(1),setShowForm2(0),setImg(require("./assets/images/product3.jpg"))}}>
-                                        <Image
-                                            style={styles.imageofSeeAll}
-                                            // @ts-ignore
-                                            source={require("./assets/images/product3.jpg")}
-                                        /></TouchableOpacity>
-                                        <Text style={{alignSelf: 'center', fontWeight: 'bold', fontSize: 17}}>Rs 299</Text> 
-                                    </View>
-                                    <View><TouchableOpacity onPress={()=>{setModal1(true),
-                            setShowForm1(1),setShowForm2(0),setImg(require("./assets/images/product4.jpg"))}}>
-                                        <Image
-                                            style={styles.imageofSeeAll}
-                                            // @ts-ignore
-                                            source={require("./assets/images/product4.jpg")}
-                                        /></TouchableOpacity>
-                                        <Text style={{alignSelf: 'center', fontWeight: 'bold', fontSize: 17}}>Rs 1399</Text> 
-                                    </View>
-                                    <View><TouchableOpacity onPress={()=>{setModal1(true),
-                            setShowForm1(1),setShowForm2(0),setImg(require("./assets/images/product5.jpg"))}}>
-                                        <Image
-                                            style={styles.imageofSeeAll}
-                                            // @ts-ignore
-                                            source={require("./assets/images/product5.jpg")}
-                                        /></TouchableOpacity>
-                                        <Text style={{alignSelf: 'center', fontWeight: 'bold', fontSize: 17}}>Rs 599</Text> 
-                                    </View>
-                                    <View><TouchableOpacity onPress={()=>{setModal1(true),
-                            setShowForm1(1),setShowForm2(0),setImg(require("./assets/images/product5.jpg"))}}>
-                                        <Image
-                                            style={styles.imageofSeeAll}
-                                            // @ts-ignore
-                                            source={require("./assets/images/product6.jpg")}
-                                        /></TouchableOpacity>
-                                        <Text style={{alignSelf: 'center', fontWeight: 'bold', fontSize: 17}}>Rs 699</Text> 
-                                    </View>   
-                                    <View><TouchableOpacity onPress={()=>{setModal1(true),
-                            setShowForm1(1),setShowForm2(0),setImg(require("./assets/images/product6.jpg"))}}>
-                                        <Image
-                                            style={styles.imageofSeeAll}
-                                            // @ts-ignore
-                                            source={require("./assets/images/product4.jpg")}
-                                        /></TouchableOpacity>
-                                        <Text style={{alignSelf: 'center', fontWeight: 'bold', fontSize: 17}}>Rs 1399</Text> 
-                                    </View>
-                                    <View><TouchableOpacity onPress={()=>{setModal1(true),
-                            setShowForm1(1),setShowForm2(0),setImg(require("./assets/images/product1.jpg"))}}>
-                                        <Image
-                                            style={styles.imageofSeeAll}
-                                            // @ts-ignore
-                                            source={require("./assets/images/product1.jpg")}
-                                        /></TouchableOpacity>
-                                        <Text style={{alignSelf: 'center', fontWeight: 'bold', fontSize: 17}}>Rs 399</Text> 
-                                    </View>
-                                    <View><TouchableOpacity onPress={()=>{setModal1(true),
-                            setShowForm1(1),setShowForm2(0),setImg(require("./assets/images/product1.jpg"))}}>
-                                        <Image
-                                            style={styles.imageofSeeAll}
-                                            // @ts-ignore
-                                            source={require("./assets/images/product2.jpg")}
-                                        /></TouchableOpacity>
-                                        <Text style={{alignSelf: 'center', fontWeight: 'bold', fontSize: 17}}>Rs 6899</Text> 
-                                    </View>
-                                    <View><TouchableOpacity onPress={()=>{setModal1(true),
-                            setShowForm1(1),setShowForm2(0),setImg(require("./assets/images/product3.jpg"))}}>
-                                        <Image
-                                            style={styles.imageofSeeAll}
-                                            // @ts-ignore
-                                            source={require("./assets/images/product3.jpg")}
-                                        /></TouchableOpacity>
-                                        <Text style={{alignSelf: 'center', fontWeight: 'bold', fontSize: 17}}>Rs 299</Text> 
-                                    </View>
-                                 
-                                    
+                                    {
+                                        productsToDisplay.map((data)=>{
+                                            return (
+                                                <View>
+                                                    <TouchableOpacity onPress={()=>{
+                                                        setModal1(true),
+                                                        setShowForm1(1),
+                                                        setShowForm2(0),
+                                                        setImg({uri: `${data.image}`}),
+                                                        setProductPrice(data.price),
+                                                        setProductDescription(data.description),
+                                                        setProductName(data.title),
+                                                        setProductId(data.id)
+                                                        }}>
+                                                            <Image
+                                                                style={styles.imageofSeeAll}
+                                                                // @ts-ignore
+                                                                source={{uri: `${data.image}`}}
+                                                        />
+                                                    </TouchableOpacity>
+                                                    <Text style={{alignSelf: 'center', fontWeight: 'bold', fontSize: 17}}>Rs {data.price}</Text> 
+                                                </View>
+                                            );
+                                        })
+                                    }
                                 </View>
                             </ScrollView>
                         </View>

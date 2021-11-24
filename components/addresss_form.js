@@ -3,7 +3,20 @@ import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'rea
 import { TextInput } from 'react-native-paper'
 import styles from './style_catalog';
 export default class AddressForm extends Component {
+
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            flat: '',
+            landmark: '',
+            city: '',
+            pincode: '',
+            state: ''
+        }
+    }
+
     render() {
+        const productInfo = this.props.route.params.productInfo;
         const {navigation}= this.props;
         return (
             <View style={{flex:1}}>
@@ -12,35 +25,44 @@ export default class AddressForm extends Component {
               <ScrollView>
                 <View>
                     <Text style={{marginVertical:10,fontSize: 20, marginLeft: 15,textAlign:'center'}}> Pleases fill all details</Text>
-                    <TextInput
-                    
+                    <TextInput               
                         placeholder='Flat/House Number'
                         style={styles.InputFieldForm2}
+                        onChangeText={(txt)=>this.setState({flat: txt})}
                     />
                     <TextInput
                         placeholder='Landmark'
                         style={styles.InputFieldForm2}
-                    />
-                    <TextInput
-                        placeholder='Flat/House Number'
-                        style={styles.InputFieldForm2}
+                        onChangeText={(txt)=>this.setState({flandmark: txt})}
                     />
                     <TextInput
                         placeholder='City'
                         style={styles.InputFieldForm2}
+                        onChangeText={(txt)=>this.setState({city: txt})}
                     />
                     <TextInput
                         placeholder='Pincode'
                         style={styles.InputFieldForm2}
+                        onChangeText={(txt)=>this.setState({pincode: txt})}
                     />
                     <TextInput
                         placeholder='state'
                         style={styles.InputFieldForm2}
+                        onChangeText={(txt)=>this.setState({state: txt})}
                     />
                     
                     <TouchableOpacity 
                         onPress={()=>{
-                           navigation.navigate("Payment")
+                           navigation.navigate("Payment", {
+                                addressData : {
+                                   flat: this.state.flat,
+                                   landmark: this.state.landmark,
+                                   city: this.state.city,
+                                   pincode: this.state.pincode,
+                                   state: this.state.state,
+                                },
+                                productInfo: productInfo
+                           })
                         }}
                         style={{
                             backgroundColor: 'black',
@@ -56,13 +78,8 @@ export default class AddressForm extends Component {
                 </View>
                 </ScrollView>
             }
-            {/* form21 inside form2 ends here */}
-            {/* form 22 starts here */}
-         
-            {/* form 22 ends here */}
         </View>
         )
     }
 
 }
-

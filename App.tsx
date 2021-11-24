@@ -24,7 +24,7 @@ import ShowCatalog from './components/ShowCatalog ';
  * @property token Token for the channel;
  * @property channelName Channel Name for the current session
  */
-const token = '006645930a984ae45c5831d9ecc05e5e675IABtOSW54RHz/cG0T7T//k0aAIWsuCxPsqF6iJcAvtsNEazTKhAAAAAAEAAtPj4LMdWbYQEAAQAx1Zth';
+const token = '006645930a984ae45c5831d9ecc05e5e675IAAPK0w/+WUgRUDCw+GUvuuTQAU6KfR7oxdk/yqatFS2WazTKhAAAAAAEAAZVNxr7xaeYQEAAQDvFp5h';
 const appId = '645930a984ae45c5831d9ecc05e5e675';
 const channelName = 'tst2';
 
@@ -54,52 +54,52 @@ export default class App extends Component<null, State> {
       isbuttonshow:false
       ,messages:[{
         _id:1
-        ,text:"hello",
-        user:{_id:2,name:'abhishekY Adav'},
+        ,text:"Hi",
+        user:{_id:2,name:'Abhishek Yadav'},
         createdAt:new Date()
         
       },
       {_id:2,
-        text:"hello",
-        user:{_id:1,name:'abhishekY Adav'},
+        text:"looks amazing",
+        user:{_id:1,name:'Abhishek Yadav'},
+        createdAt:new Date()
+      }, {_id:5,
+        text:"Purchased '1 Chicken Jenga'",
+        user:{_id:1,name:'Hema K'},
         createdAt:new Date()
       },
       {_id:4,
-        text:"hello",
-        user:{_id:2,name:'abhishekY Adav'},
+        text:"I want to buy one too",
+        user:{_id:2,name:'Mitali Lakhera'},
         createdAt:new Date()
         
       },
-      {_id:5,
-        text:"hello",
-        user:{_id:1,name:'abhishekY Adav'},
-        createdAt:new Date()
-      },
+     
       {_id:7,
-        text:"hello",
-        user:{_id:2,name:'abhishekY Adav'},
+        text:"can hear you",
+        user:{_id:2,name:'Mitali Lakhera'},
         createdAt:new Date()
         
       },
       {_id:0,
-        text:"hello",
-        user:{_id:1,name:'abhishekY Adav'},
+        text:"is White color available",
+        user:{_id:1,name:'Rahul Kumar'},
         createdAt:new Date()
       },
       {_id:8,
-        text:"hello",
-        user:{_id:2,name:'abhishekY Adav'},
+        text:"love this",
+        user:{_id:2,name:'Monu Sharma'},
         createdAt:new Date()
         
       },
       {_id:9,
-        text:"hello",
-        user:{_id:1,name:'abhishekY Adav'},
+        text:"Bro",
+        user:{_id:1,name:'Abhishek Yadav'},
         createdAt:new Date()
       },
       {_id:3,
-        text:"hello",
-        user:{_id:2,name:'abhishekY Adav'},
+        text:"nice Bro",
+        user:{_id:2,name:'Umesh Singh'},
         createdAt:new Date()
         
       },
@@ -253,6 +253,8 @@ export default class App extends Component<null, State> {
         {this._renderRemoteVideos()}
        
         {this._renderlivechats()}
+        <IconButton size={30} color={'blue'} icon="close-circle-outline"onPress={()=>{this.endCall()}}  style={{position:'absolute', top:-5,left:0}}/>
+
         <ShowCatalog navigation={navigation}/>
       </View></ScrollView>
     ) : null;
@@ -289,7 +291,7 @@ export default class App extends Component<null, State> {
           {messages.map((message)=>{
           return(
             <View key={message._id} style={{flex:1,justifyContent:'flex-start',paddingHorizontal:8,}}>
-           <View style={{flex:1,flexDirection:'row',height:20}}><View style={{width:35,height:35,backgroundColor:clrs[message._id],borderRadius:50,marginRight:5,justifyContent:'center'} } ><Text style={{color:'white', fontSize:18,fontWeight:'700',textAlign:'center'}}>A</Text></View><Text style={{fontSize:18,color:'white',fontWeight:'600'}}>{message.user.name}</Text></View>
+           <View style={{flex:1,flexDirection:'row',height:20}}><View style={{width:35,height:35,backgroundColor:clrs[message._id],borderRadius:50,marginRight:5,justifyContent:'center'} } ><Text style={{color:'white', fontSize:18,fontWeight:'700',textAlign:'center'}}>{(message.user.name[0]).toUpperCase()}</Text></View><Text style={{fontSize:18,color:'white',fontWeight:'600'}}>{message.user.name}</Text></View>
             <Text style={{fontSize:16,marginLeft:40 ,fontWeight:'500' ,color:'white'}}>{message.text}</Text>      
                 </View>
           );

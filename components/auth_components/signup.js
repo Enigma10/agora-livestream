@@ -49,7 +49,7 @@ const SignUp = ({navigation}) => {
             if( otpStatus.data.Status === "Success" ) {
                 try {
                     const createUser = await axios.post(`${URL}/signup`, {
-                        "phone": `${countryCode}+${phone}`,
+                        "phone": `${countryCode}${phone}`,
                         "name": name,
                         "role": "B",
                         "email": email
