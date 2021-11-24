@@ -2,7 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import { StyleSheet, View, Text, TextInput, TouchableOpacity } from "react-native";
 
-const SignUp = ({navigation}) => {
+const SignUp = ({navigation,route}) => {
+
     const [name, setName] = useState('');
     const [sessionData, setSessionData] = useState('');
     const [countryCode, setCountryCode] = useState('+91');
@@ -11,10 +12,12 @@ const SignUp = ({navigation}) => {
     const [otp, setOtp] = useState('');
     const [getOtpError, setgetOtpError] = useState('');
     const [verifyOtpError, setVerifyOtpError] = useState('');
+    const [checkPage, setCheckPage]=useState(true);
 
     const URL = 'http://ec2-15-206-204-21.ap-south-1.compute.amazonaws.com:8000/user';
 
     const handleGetOtp = async () => {
+        
         console.log("get otp");
         if(phone==='' || email==='' || name==='') {
             setgetOtpError('Please Fill all the Fields');
@@ -45,7 +48,6 @@ const SignUp = ({navigation}) => {
                 "details": sessionData,
                 "otp": otp
              });
-            console.log(otpStatus.data);
             if( otpStatus.data.Status === "Success" ) {
                 try {
                     const createUser = await axios.post(`${URL}/signup`, {
@@ -72,10 +74,25 @@ const SignUp = ({navigation}) => {
             setVerifyOtpError('Something went wrong, check your network');
         }
     }
+if(checkPage){
+    if(route.hasOwnProperty("params")){
+        if(route.params==undefined){console.log("welcome to signup page")
 
+        }
+        else{
+            setCheckPage(false);
+            setPhone(route.params.number.num);
+            setCountryCode(route.params.number.code);
+        }
+        console.log(route.params);
+
+    }}
+    
+    
     return (
         <View style={styles.container}>
             <View style={styles.content}>
+
                 <Text style={styles.header}>Fill up Your details</Text>
 
                 <TextInput
@@ -96,6 +113,7 @@ const SignUp = ({navigation}) => {
                     />
                     <TextInput
                         keyboardType='numeric'
+                        value={phone}
                         style={styles.phoneField}
                         placeholder='Enter Phone...'
                         onChangeText={(txt)=>{
@@ -139,7 +157,11 @@ const SignUp = ({navigation}) => {
                 >
                     <Text style={{color: 'white', fontWeight: 'bold'}}>Verify OTP</Text>
                 </TouchableOpacity>
+                <View style={{flexDirection:'row',justifyContent:'center',marginTop:20}}>
+                        <Text style={styles.txt} >Already Have an account?</Text><Text  onPress={() => {navigation.navigate("Login")  ;}}style={[styles.txt,{color:'blue'}]} > Login</Text>
+                    </View>
             </View>
+        
         </View>
     );
 }
@@ -194,7 +216,15 @@ const styles = StyleSheet.create({
         fontSize: 15
 
     },
-    countryCode: {
+    txt: {
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: '600',
+        
+      }
+    
+    
+    ,countryCode: {
         width: '20%',
         backgroundColor: 'white',
         borderTopLeftRadius:50,

@@ -18,14 +18,15 @@ return (
   <NavigationContainer>    
 <Stk.Navigator>
 <Stk.Screen
-name="Login"
-component={Login}
-/>
-<Stk.Screen
 name="Signup"
 component={Signup}
 
 />
+<Stk.Screen
+name="Login"
+component={Login}
+/>
+
 <Stk.Screen
 name="ChekUser"
 component={CheckUser}

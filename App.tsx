@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Keyboard,
   Platform,
   ScrollView,
   Text,
@@ -24,7 +25,7 @@ import ShowCatalog from './components/ShowCatalog ';
  * @property token Token for the channel;
  * @property channelName Channel Name for the current session
  */
-const token = '006645930a984ae45c5831d9ecc05e5e675IAAPK0w/+WUgRUDCw+GUvuuTQAU6KfR7oxdk/yqatFS2WazTKhAAAAAAEAAZVNxr7xaeYQEAAQDvFp5h';
+const token = '006645930a984ae45c5831d9ecc05e5e675IAB2JaxgJ00bfvW4SRfv8ux0IE9EtCYVHlvr4X2VH3D+3KzTKhAAAAAAEACdnafAk2qfYQEAAQCTap9h';
 const appId = '645930a984ae45c5831d9ecc05e5e675';
 const channelName = 'tst2';
 
@@ -40,6 +41,7 @@ interface State {
   messages:any[];
   txtmsg:string;
   isbuttonshow:boolean;
+  myRef:any;
 }
 
 export default class App extends Component<null, State> {
@@ -48,7 +50,8 @@ export default class App extends Component<null, State> {
   constructor(props) {
     super(props);
     this.state = {
-      isHost: true,
+      myRef :React.createRef()
+      ,isHost: true,
       joinSucceed: false,
       peerIds: [],
       isbuttonshow:false
@@ -239,7 +242,7 @@ export default class App extends Component<null, State> {
     const {navigation} =this.props;
     const { joinSucceed } = this.state;
     return joinSucceed ? (
-      <ScrollView contentContainerStyle={{flexGrow:1}} style={{flex:1}}>
+      <ScrollView keyboardShouldPersistTaps='handled' contentContainerStyle={{flexGrow:1}} style={{flex:1}}>
       <View style={styles.fullView}>
         {this.state.isHost ? (
           <RtcLocalView.SurfaceView
@@ -270,22 +273,23 @@ export default class App extends Component<null, State> {
       createdAt:new Date()};
       //push message in list of messages <-->note- i use  "async await" because it was not working properly before <-->
      await this.setState({messages:[...this.state.messages,msg],txtmsg:''});
+     Keyboard.dismiss();
     
     }
     }
 
   _renderlivechats=()=>{
-    const {messages,txtmsg}=this.state;
+    const {messages,txtmsg,myRef}=this.state;
     const clrs =['#4e8ef5','#9d1ed4','#d41eb8','#e82063','#a1bd15','#9d1ed4','#a1bd15','#9d1ed4','#d41eb8','#e82063','#a1bd15'];
     console.log(clrs[2]);
     return(
       
-      <View style={styles.chatView}>
+      <View  style={styles.chatView}>
         <LinearGradient 
       colors={['transparent' ,'black']} 
       style={{flex:1}}>
         <View style={{flex:1}}>
-        <ScrollView scrollEnabled contentContainerStyle={{ flexGrow: 1 }}>
+        <ScrollView ref={myRef} onContentSizeChange={()=>{myRef.current.scrollToEnd({animated:true})}} keyboardShouldPersistTaps='handled' scrollEnabled contentContainerStyle={{ flexGrow: 1 }}>
        
         <View style={{flex:1}}>
           {messages.map((message)=>{

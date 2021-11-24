@@ -40,8 +40,8 @@ const Login = ({navigation}) => {
                     setgetOtpError('Could not sent OTP, check your network');
                 }
             }
-            else {
-                navigation.navigate('Signup');
+            else { alert("You don't have an account please signup");
+                navigation.navigate('Signup',{number:{num:phone,code:countryCode},});
             }
         } catch {
             console.log("couln't send");
@@ -130,9 +130,9 @@ const Login = ({navigation}) => {
                         </TouchableOpacity>
                         </View>:<></>
                     }
-                    <View style={{}}>
+                    {/* <View style={{}}>
                         <Text style={[styles.txt,{marginTop:1}]} onPress={() => {setOTPScreen(false);navigation.navigate("Signup")  ;}}>'Switch to SignUp page'</Text>
-                    </View>
+                    </View> */}
                 </ScrollView>
             </View>
         </View>
