@@ -7,6 +7,8 @@
 build/
 android/app/build/
 android/build/
+android/java_pid5464.hprof
+android/java_pid5426.hprof
 *.pbxuser
 !default.pbxuser
 *.mode1v3
